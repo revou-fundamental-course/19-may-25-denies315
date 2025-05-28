@@ -1,31 +1,156 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Konversi Suhu</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konversi Suhu Celsius &rarr; Fahrenheit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px 25px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .button-group {
+            margin-bottom: 15px;
+        }
+
+        .button-group button {
+            margin-right: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-group button:hover {
+            background-color: #d0d0d0;
+        }
+
+        a {
+            display: inline-block;
+            margin: 10px 0 20px;
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        h3 {
+            font-size: 16px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .rumus {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Konversi Suhu Celsius (°C) ke Fahrenheit (°F)</h2>
-    
-    <label for="celsius">Celsius (°C):</label>
-    <textarea id="celsius" placeholder="Contoh: 90"></textarea>
+    <div class="container">
+        <p class="intro">
+            Masukkan suhu derajat Celsius (°C) ke kotak dibawah, lalu klik tombol Konversi
+            untuk mendapatkan hasil konversi dalam bentuk Fahrenheit (°F).
+        </p>
 
-    <div class="buttons">
-      <button onclick="convert()">Konversi</button>
-      <button onclick="resetFields()">Reset</button>
-      <button onclick="reverse()">Reverse</button>
+        <label for="celsius"><b>Celsius (°C):</b></label><br>
+        <textarea id="celsius" rows="2"></textarea><br>
+
+        <div class="button-group">
+            <button onclick="convert()">Konversi</button>
+            <button onclick="reset()">Reset</button>
+            <button onclick="reverse()">Reverse</button>
+        </div>
+
+        <label for="fahrenheit"><b>Fahrenheit (°F):</b></label><br>
+        <textarea id="fahrenheit" rows="2" readonly></textarea><br>
+
+        <label for="calculation"><b>Cara Kalkulasi:</b></label><br>
+        <textarea id="calculation" rows="2" readonly></textarea><br>
+
+        <a href="#" onclick="reverse()">Fahrenheit ke Celsius</a>
+
+        <h3>Cara Konversi Dari Celsius (°C) ke Fahrenheit (°F)</h3>
+        <p>
+            Suhu <i>S</i> dalam derajat Fahrenheit (°F) sama dengan suhu <i>S</i> dalam derajat Celsius (°C)
+            kali <b>9/5</b> tambah <b>32</b>.
+        </p>
+        <p class="rumus">
+            <span>S(°F) = (S(°C) × 9/5) + 32</span><br>
+            atau<br>
+            <span>S(°F) = (S(°C) × 1.8) + 32</span>
+        </p>
     </div>
 
-    <label for="fahrenheit">Fahrenheit (°F):</label>
-    <textarea id="fahrenheit" readonly></textarea>
+    <script>
+        function convert() {
+            const celsiusInput = document.getElementById("celsius");
+            const fahrenheitOutput = document.getElementById("fahrenheit");
+            const calcText = document.getElementById("calculation");
 
-    <label for="calc">Cara Kalkulasi:</label>
-    <textarea id="calc" readonly></textarea>
-  </div>
+            const celsius = parseFloat(celsiusInput.value);
+            if (isNaN(celsius)) {
+                alert("Masukkan angka Celsius yang valid.");
+                return;
+            }
 
-  <!-- Hubungkan ke file JS -->
-  <script src="script.js"></script>
+            const fahrenheit = (celsius * 9 / 5) + 32;
+            fahrenheitOutput.value = fahrenheit;
+            calcText.value = `${celsius}°C * (9/5) + 32 = ${fahrenheit}°F`;
+        }
+
+        function reset() {
+            document.getElementById("celsius").value = "";
+            document.getElementById("fahrenheit").value = "";
+            document.getElementById("calculation").value = "";
+        }
+
+        function reverse() {
+            const fahrenheitInput = document.getElementById("fahrenheit");
+            const celsiusOutput = document.getElementById("celsius");
+            const calcText = document.getElementById("calculation");
+
+            const fahrenheit = parseFloat(fahrenheitInput.value);
+            if (isNaN(fahrenheit)) {
+                alert("Masukkan angka Fahrenheit yang valid.");
+                return;
+            }
+
+            const celsius = ((fahrenheit - 32) * 5) / 9;
+            celsiusOutput.value = celsius.toFixed(2);
+            calcText.value = `(${fahrenheit}°F - 32) * 5/9 = ${celsius.toFixed(2)}°C`;
+        }
+    </script>
 </body>
 </html>
